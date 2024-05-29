@@ -39,7 +39,8 @@ router.post("/products", isAuthenticated, (req, res) => {
     numReviews,
     countInStock,
   } = req.body;
-  if (req.user.role !== "admin") {
+  const { role } = req.payload;
+  if (role !== "admin") {
     return res.status(403).json({ message: "Unauthorized" });
   }
   Product.create({
