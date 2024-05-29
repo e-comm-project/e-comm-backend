@@ -1,7 +1,7 @@
 const express = require("express");
 const Order = require("../models/Order.model");
 const router = express.Router();
-const isAuthenticated = require("../middleware/isAuthenticated");
+const isAuthenticated = require("../middleware/jwt.middleware");
 
 router.get("/orders/:id", isAuthenticated, (req, res, next) => {
   const userId = req.params.id;
