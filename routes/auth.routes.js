@@ -76,12 +76,23 @@ router.post("/signup", (req, res, next) => {
 
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post("/login", (req, res, next) => {
-  const { email, password } = req.body;
-
+  const { email, password, role } = req.body;
   // Check if email or password are provided as empty string
   if (email === "" || password === "") {
     res.status(400).json({ message: "Provide email and password." });
     return;
+  }
+
+  if (role === "admin") {
+    router.get("/admin", isAuthenticated, (req, res) => {
+      res.status(200).json(req.payload);
+    });
+  }
+
+  if (role === "user") {
+    router.get("/profile", isAuthenticated, (req, res) => {
+      res.status(200).json(req.payload);
+    });
   }
 
   // Check the users collection if a user with the same email exists
@@ -109,6 +120,8 @@ router.post("/login", (req, res, next) => {
           expiresIn: "6h",
         });
 
+        // Check the user role and add additional routes based on the role
+
         // Send the token as the response
         res.status(200).json({ authToken: authToken });
       } else {
@@ -119,12 +132,7 @@ router.post("/login", (req, res, next) => {
 });
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
-router.get("/verify", isAuthenticated, (req, res, next) => {
-  // If JWT token is valid the payload gets decoded by the
-  // isAuthenticated middleware and is made available on `req.payload`
-  // console.log(`req.payload`, req.payload);
-
-  // Send back the token payload object containing the user data
+router.get("/verify", isAuthenticated, (req, res) => {
   res.status(200).json(req.payload);
 });
 
