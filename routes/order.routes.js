@@ -3,6 +3,18 @@ const Order = require("../models/Order.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 const router = express.Router();
+router.get("/orders", isAuthenticated, (req, res, next) => {
+  const userId = req.payload._id; // Extract user ID from authenticated user's payload
+
+  Order.find({ user: userId })
+    .populate({ path: "products.product", select: "images name price" })
+    .then((orders) => {
+      res.status(200).json(orders);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
 
 router.get("/orders/:id", isAuthenticated, (req, res, next) => {
   const userId = req.params.id;
