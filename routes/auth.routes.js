@@ -128,4 +128,10 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
   res.status(200).json(req.payload);
 });
 
+// GET  /auth/logout  -  Used to clear the JWT stored on the client
+router.get("/logout", (req, res, next) => {
+  // Clear the JWT token stored on the client
+  res.clearCookie("token").sendStatus(200);
+});
+
 module.exports = router;
