@@ -24,8 +24,28 @@ router.get("/admin/products/:id", isAuthenticated, (req, res, next) => {
 
 // Create a new product
 router.post("/admin/products", isAuthenticated, (req, res, next) => {
-  const { name, description, price } = req.body;
-  Product.create({ name, description, price })
+  const {
+    name,
+    price,
+    description,
+    category,
+    brand,
+    image,
+    rating,
+    numReviews,
+    countInStock,
+  } = req.body;
+  Product.create({
+    name,
+    price,
+    description,
+    category,
+    brand,
+    image,
+    rating,
+    numReviews,
+    countInStock,
+  })
     .then((product) => res.status(201).json(product))
     .catch((err) =>
       res.status(400).json({ message: "Error creating product", error: err })
