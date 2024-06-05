@@ -34,6 +34,7 @@ router.post("/admin/products", isAuthenticated, (req, res, next) => {
     rating,
     numReviews,
     countInStock,
+    genre,
   } = req.body;
   Product.create({
     name,
@@ -45,6 +46,7 @@ router.post("/admin/products", isAuthenticated, (req, res, next) => {
     rating,
     numReviews,
     countInStock,
+    genre,
   })
     .then((product) => res.status(201).json(product))
     .catch((err) =>
