@@ -39,6 +39,11 @@ const productSchema = new Schema({
     type: Number,
     required: true,
   },
+  genre: {
+    type: String,
+    enum: ["Men", "Women"],
+    required: true,
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);
