@@ -28,6 +28,8 @@ module.exports = (app) => {
     })
   );
 
+  app.use("/uploads", express.static("uploads"));
+
   // In development environment the app logs
   app.use(logger("dev"));
 
